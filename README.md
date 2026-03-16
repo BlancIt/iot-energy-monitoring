@@ -1,11 +1,11 @@
 
 ---
 
-# Energy Monitoring IoT Workshop
+# Energy Monitoring IoT Pipeline
 
-A hands-on workshop demonstrating a **generic IoT energy monitoring pipeline** using managed services and Python-based device simulation.
+A hands-on project demonstrating a **generic IoT energy monitoring pipeline** using managed services and Python-based device simulation.
 
-The workshop simulates a fleet of devices sending electrical telemetry to a cloud message broker, which is then ingested into a time-series database and visualized using Grafana dashboard.
+The project simulates a fleet of devices sending electrical telemetry to a cloud message broker, which is then ingested into a time-series database and visualized using Grafana dashboard.
 
 ---
 
@@ -50,7 +50,7 @@ Each component has a clearly defined role:
 # Project Structure
 
 ```
-energy-monitoring-workshop/
+iot-energy-monitoring/
 │
 ├── requirements.txt
 ├── .env.example
@@ -75,6 +75,43 @@ energy-monitoring-workshop/
 ```
 
 ---
+
+# Cloud Services Setup
+
+## CloudAMQP
+
+- Signup on cloudamqp.com using free tier
+- Click Create New Instance using LavinMQ
+- Pick a name for the instance, select the free plan and choose a region
+- Go to instance dashboard and copy the AMQP URL. Put it on .env
+
+## InfluxDB
+
+- Signup on cloud2.influxdata.com using free tier
+- On Resource Center, click Manage Database & Security and choose Go To Buckets to create a database and choose Go To Tokens to generate API Token
+- Put following lines on .env:
+```
+INFLUX3_HOST=https://us-east-1-1.aws.cloud2.influxdata.com
+INFLUX3_ORG=[org name on top left]
+INFLUX3_DATABASE=[name of database]
+INFLUX3_TOKEN=[api token generated]
+```
+
+## Grafana
+
+- Signup on grafana.com using free tier
+- Go to Connections → Add new connection
+- Add InfluxDB
+- Configure setting with following information:
+```
+URL: Use previously set INFLUX3_HOST
+Product: InfluxDB Cloud Serverless
+Query Language: SQL
+Database: energy-monitoring
+Token: use previously set INFLUX3_TOKEN
+```
+- Click Save & Test to verify
+- If successful, create a new Dashboard → Add visualization → select your InfluxDB data source
 
 # Environment Setup
 
@@ -340,7 +377,7 @@ python consumers/minimal_amqp_to_influx.py
 
 ## amqp_to_influx3.py
 
-Full ingestion service used for the final workshop.
+Full ingestion service used listen for data producer.
 
 Workflow:
 
@@ -387,7 +424,7 @@ Open two terminals.
 
 ## Terminal 1
 
-Start ingestion service.
+Start ingestion service -> Consumer
 
 ```bash
 python consumers/amqp_to_influx3.py
@@ -397,7 +434,7 @@ python consumers/amqp_to_influx3.py
 
 ## Terminal 2
 
-Start fleet simulator.
+Start fleet simulator -> Producer
 
 ```bash
 python producers/fleet_device_simulator.py
@@ -574,26 +611,9 @@ Check:
 
 ---
 
-# Workshop Agenda (Example)
-
-Total duration: **2 hours**
-
-| Time | Activity                 |
-| ---- | ------------------------ |
-| 0:00 | Architecture overview    |
-| 0:15 | Broker test              |
-| 0:30 | Single meter simulation  |
-| 0:45 | Fleet simulation         |
-| 1:00 | Ingestion service        |
-| 1:20 | InfluxDB queries         |
-| 1:40 | Grafana dashboards       |
-| 2:00 | Q&A                      |
-
----
-
 # Summary
 
-This workshop demonstrates a scalable IoT energy monitoring pipeline using:
+This project demonstrates a scalable IoT energy monitoring pipeline using:
 
 * Python energy meter simulation
 * managed AMQP messaging
