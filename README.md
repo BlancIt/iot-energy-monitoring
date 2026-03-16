@@ -418,6 +418,26 @@ Output:
 
 # Running the End-to-End Demo
 
+1. Test broker connection
+```bash
+python scripts/test_broker_connection.py
+```
+2. Test InfluxDB connection
+```bash
+python scripts/test_influx_write.py
+```
+3. Run pipeline (Use 2 CMD terminals)
+python consumers/amqp_to_influx3.py  -> Ingestion Service
+python producers/fleet_device_simulator.py -> Fleet Simulator
+
+5. Check CloudAMQP for incoming queue
+6. Check InfluxData for inserted data
+7. Build Grafana dashboard
+- Drag new panel and configure the panel
+- Add new query, choose the right data source and switch to code mode to be able to enter SQL Query
+- Enter query and run query
+- Repeat for 6 type of visualization
+
 Open two terminals.
 
 ---
