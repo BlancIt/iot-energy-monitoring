@@ -3,9 +3,9 @@
 
 # Energy Monitoring IoT Workshop
 
-A hands-on workshop demonstrating a **cloud-based IoT energy monitoring pipeline** using managed services and Python-based device simulation.
+A hands-on workshop demonstrating a **generic IoT energy monitoring pipeline** using managed services and Python-based device simulation.
 
-The workshop simulates a fleet of energy meters sending electrical telemetry to a cloud message broker, which is then ingested into a time-series database and visualized using Grafana.
+The workshop simulates a fleet of devices sending electrical telemetry to a cloud message broker, which is then ingested into a time-series database and visualized using Grafana dashboard.
 
 ---
 
@@ -14,7 +14,7 @@ The workshop simulates a fleet of energy meters sending electrical telemetry to 
 The system architecture:
 
 ```
-Python Energy Meter Simulators
+IoT Energy Meter (Simulated)
         │
         ▼
 CloudAMQP (LavinMQ) Queue
